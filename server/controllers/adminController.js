@@ -1,3 +1,4 @@
+// adminController.js
 const db = require('../utils/mysql');
 
 const registerLostObject = async (req, res) => {
@@ -16,7 +17,14 @@ const getLostObjects = async (req, res) => {
     res.send(lostObjects);
 };
 
+const deleteLostObject = async (req, res) => {
+    const { id } = req.params;
+    await db.query('DELETE FROM lost_objects WHERE id = ?', [id]);
+    res.send({ message: 'Lost object deleted successfully' });
+}
+
 module.exports = {
     registerLostObject,
-    getLostObjects
+    getLostObjects,
+    deleteLostObject
 };

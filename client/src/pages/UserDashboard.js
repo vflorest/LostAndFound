@@ -1,5 +1,5 @@
+// UserDashboard.js
 import React, { useState } from 'react';
-import axios from 'axios';
 import Navbar from '../components/NavBar';
 
 const UserDashboard = () => {
@@ -21,12 +21,22 @@ const UserDashboard = () => {
         }
 
         try {
-            await axios.post('http://localhost:3001/api/objects', formData, {
+            const response = await fetch('http://localhost:3001/api/users/register-request', {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: formData
             });
+            if (!response.ok) {
+                throw new Error('Error al ingresar solicitud');
+            }
             alert('Solicitud ingresada exitosamente');
+            // Limpiar los campos del formulario
+            setName('');
+            setDescription('');
+            setFile(null);
+            document.getElementById('file').value = null; // Limpiar input file
         } catch (err) {
             console.error('Error al ingresar solicitud:', err);
             alert('Error al ingresar solicitud');

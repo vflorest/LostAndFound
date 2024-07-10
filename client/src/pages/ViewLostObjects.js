@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Navbar from '../components/NavBar';
 
 const ViewLostObjects = () => {
@@ -8,14 +7,40 @@ const ViewLostObjects = () => {
     useEffect(() => {
         const fetchLostObjects = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/admin/lost-objects');
-                setLostObjects(response.data);
+                const response = await fetch('http://localhost:3001/api/admin/lost-objects', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Error fetching lost objects');
+                }
+                const data = await response.json();
+                setLostObjects(data);
             } catch (err) {
                 console.error('Error fetching lost objects:', err);
             }
         };
         fetchLostObjects();
     }, []);
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3001/api/admin/lost-objects/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Error deleting lost object');
+            }
+            // Eliminar el objeto del estado local
+            setLostObjects(lostObjects.filter((object) => object.id !== id));
+        } catch (err) {
+            console.error('Error deleting lost object:', err);
+        }
+    };
 
     return (
         <>
@@ -31,6 +56,12 @@ const ViewLostObjects = () => {
                                 <img src={`http://localhost:3001/uploads/${object.photo}`} alt={object.name} className="w-32 h-32 object-cover mt-2" />
                             )}
                             <p className="text-gray-500">Registrado el: {new Date(object.createdAt).toLocaleString()}</p>
+                            <button
+                                onClick={() => handleDelete(object.id)}
+                                className="mt-2 py-1 px-4 bg-red-500 text-white rounded"
+                            >
+                                Eliminar
+                            </button>
                         </li>
                     ))}
                 </ul>
