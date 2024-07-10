@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = ({ isAdmin }) => {
@@ -26,13 +25,23 @@ const LoginForm = ({ isAdmin }) => {
 
         try {
             console.log('Sending login request with:', userData);
-            const response = await axios.post(
+            const response = await fetch(
                 isAdmin ? 'http://localhost:3001/api/auth/admin-login' : 'http://localhost:3001/api/auth/login', 
-                userData
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                }
             );
-            const user = response.data.user || response.data.admin;
+            if (!response.ok) {
+                throw new Error('Credenciales incorrectas');
+            }
+            const data = await response.json();
+            const user = data.user || data.admin;
             console.log('Login successful:', user);
-            localStorage.setItem('token', 'some-token'); // Aquí deberías guardar el token real recibido
+            localStorage.setItem('token', data.token); // Aquí deberías guardar el token real recibido
             navigate(isAdmin ? '/admin/home' : '/user/home');
         } catch (err) {
             console.error('Login error:', err);

@@ -27,7 +27,10 @@ const ViewLostObjects = () => {
                         <li key={object.id} className="p-4 border border-gray-300 rounded">
                             <h2 className="text-xl font-bold">{object.name}</h2>
                             <p>{object.description}</p>
-                            <img src={`http://localhost:3001/uploads/${object.photo}`} alt={object.name} className="w-32 h-32 object-cover mt-2" />
+                            {object.photo && (
+                                <img src={`http://localhost:3001/uploads/${object.photo}`} alt={object.name} className="w-32 h-32 object-cover mt-2" />
+                            )}
+                            <p className="text-gray-500">Registrado el: {new Date(object.createdAt).toLocaleString()}</p>
                         </li>
                     ))}
                 </ul>

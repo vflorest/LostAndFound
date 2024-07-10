@@ -1,12 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './components/Login';
+import LoginForm from './components/LoginForm';
 import Register from './components/Register';
 import UserHome from './pages/UserHome';
 import AdminHome from './pages/AdminHome';
 import Profile from './pages/Profile';
 import Requests from './pages/Requests';
-import AdminLogin from './components/AdminLogin';
 import RegisterLostObject from './components/RegisterLostObject';
 import ViewLostObjects from './pages/ViewLostObjects';
 import ViewRequests from './pages/ViewRequests';
@@ -18,10 +17,10 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<LoginForm isAdmin={false} />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/" element={<UserHome />} />
-                <Route path="/admin-login" element={<AdminLogin />} />
+                <Route path="/admin-login" element={<LoginForm isAdmin={true} />} />
                 <Route path="/admin/home" element={<PrivateRoute><AdminHome /></PrivateRoute>} />
                 <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
                 <Route path="/requests" element={<PrivateRoute><Requests /></PrivateRoute>} />

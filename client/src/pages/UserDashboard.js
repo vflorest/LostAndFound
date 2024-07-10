@@ -16,7 +16,9 @@ const UserDashboard = () => {
         const formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
-        formData.append('file', file);
+        if (file) {
+            formData.append('file', file);
+        }
 
         try {
             await axios.post('http://localhost:3001/api/objects', formData, {
@@ -59,13 +61,12 @@ const UserDashboard = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="file" className="block text-gray-700">Foto:</label>
+                        <label htmlFor="file" className="block text-gray-700">Foto (opcional):</label>
                         <input
                             type="file"
                             id="file"
                             onChange={handleFileChange}
                             className="w-full p-2 border border-gray-300 rounded mt-1"
-                            required
                         />
                     </div>
                     <button type="submit" className="py-2 px-4 bg-violet-500 text-white rounded">Enviar Solicitud</button>
