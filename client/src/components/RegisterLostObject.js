@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './NavBar';
+import NavBar from './NavBar';
 
 const RegisterLostObject = () => {
     const [name, setName] = useState('');
@@ -25,10 +25,11 @@ const RegisterLostObject = () => {
 
         try {
             const token = localStorage.getItem('token'); // Obtener el token del almacenamiento local
-            const response = await fetch('http://localhost:3001/api/admin/register-lost-object', {
+            console.log('Token being sent:', token); // Debug
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/register-lost-object`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': token // Enviar el token en el encabezado Authorization
+                    'Authorization': `Bearer ${token}` // Enviar el token en el encabezado Authorization
                 },
                 body: formData
             });
@@ -45,7 +46,7 @@ const RegisterLostObject = () => {
 
     return (
         <>
-            <Navbar isAdmin={true} />
+            <NavBar isAdmin={true} />
             <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
                 <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
                     <h2 className="text-2xl font-bold mb-4">Registrar Objeto Perdido</h2>

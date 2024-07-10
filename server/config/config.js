@@ -1,14 +1,12 @@
 module.exports = {
-    mysql: {
-        host: process.env.MYSQL_HOST || 'localhost',
-        user: process.env.MYSQL_USER || 'root',
-        password: process.env.MYSQL_PASSWORD || 'root',
-        database: process.env.MYSQL_DATABASE || 'lost_and_found'
-    },
-    jwt: {
-        secret: process.env.JWT_SECRET || 'secret'
-    },
     app: {
-        port: process.env.APP_PORT || 3001
-    }
+        port: process.env.PORT || 3001
+    },
+    db: {
+        host: process.env.DB_HOST || 'localhost',
+        user: process.env.DB_USER || 'root',
+        password: process.env.DB_PASSWORD || '0000',
+        database: process.env.DB_NAME || 'lost_and_found'
+    },
+    secretKey: process.env.SECRET_KEY || 'CONC3EujjGzPyqS5ezfBX1u3uQ7/rVO++QwTmSKg7YE='
 };

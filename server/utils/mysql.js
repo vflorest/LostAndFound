@@ -2,10 +2,10 @@ const mysql = require('mysql');
 const config = require('../config/config'); // Asegúrate de que esta ruta es correcta
 
 const dbconfig = {
-    host: config.mysql.host,
-    user: config.mysql.user,
-    password: config.mysql.password,
-    database: config.mysql.database
+    host: config.db.host,
+    user: config.db.user,
+    password: config.db.password,
+    database: config.db.database
 };
 
 let connection;
