@@ -7,7 +7,6 @@ function validateEmail(email) {
 }
 
 async function registerUser(email, password) {
-    console.log('registerUser called with:', email);
     if (!validateEmail(email)) {
         throw new Error('Invalid email format');
     }
@@ -19,11 +18,9 @@ async function registerUser(email, password) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     await db.query('INSERT INTO users (email, password) VALUES (?, ?)', [email, hashedPassword]);
-    console.log('User registered:', email);
 }
 
 async function registerAdmin(email, password) {
-    console.log('registerAdmin called with:', email);
     if (!validateEmail(email)) {
         throw new Error('Invalid email format');
     }
@@ -35,11 +32,9 @@ async function registerAdmin(email, password) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     await db.query('INSERT INTO admins (email, password) VALUES (?, ?)', [email, hashedPassword]);
-    console.log('Admin registered:', email);
 }
 
 async function loginUser(email, password) {
-    console.log('loginUser called with:', email);
     const users = await db.query('SELECT * FROM users WHERE email = ?', [email]);
     if (users.length === 0) {
         throw new Error('User not found');
@@ -51,12 +46,10 @@ async function loginUser(email, password) {
         throw new Error('Invalid password');
     }
 
-    console.log('User logged in:', email);
     return user;
 }
 
 async function loginAdmin(email, password) {
-    console.log('loginAdmin called with:', email);
     const admins = await db.query('SELECT * FROM admins WHERE email = ?', [email]);
     if (admins.length === 0) {
         throw new Error('Admin not found');
@@ -68,7 +61,6 @@ async function loginAdmin(email, password) {
         throw new Error('Invalid password');
     }
 
-    console.log('Admin logged in:', email);
     return admin;
 }
 

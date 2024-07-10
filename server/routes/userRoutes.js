@@ -1,15 +1,10 @@
 const express = require('express');
-const userService = require('../services/userService');
+const userController = require('../controllers/userController');
+const verifyToken = require('../middleware/authMiddleware');
 const router = express.Router();
 
-router.post('/create-admin', async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        await userService.createAdmin(email, password);
-        res.status(201).json({ message: 'Admin created successfully' });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
+router.get('/me', verifyToken, userController.getUserProfile);
+router.put('/me', verifyToken, userController.updateUserProfile);
+router.get('/requests', verifyToken, userController.getUserRequests);
 
 module.exports = router;

@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/NavBar';
 
-const Requests = () => {
+const ViewRequests = () => {
     const [requests, setRequests] = useState([]);
 
     useEffect(() => {
-        // Cargar solicitudes del usuario desde el backend
         const fetchRequests = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/requests');
+                const response = await axios.get('http://localhost:3001/api/admin/requests');
                 setRequests(response.data);
             } catch (err) {
                 console.error('Error fetching requests:', err);
@@ -20,9 +19,9 @@ const Requests = () => {
 
     return (
         <>
-            <Navbar isAdmin={false} />
+            <Navbar isAdmin={true} />
             <div className="container mx-auto p-4">
-                <h1 className="text-2xl font-bold mb-4">Mis Solicitudes</h1>
+                <h1 className="text-2xl font-bold mb-4">Solicitudes</h1>
                 <ul className="space-y-4">
                     {requests.map((request) => (
                         <li key={request.id} className="p-4 border border-gray-300 rounded">
@@ -37,4 +36,4 @@ const Requests = () => {
     );
 };
 
-export default Requests;
+export default ViewRequests;

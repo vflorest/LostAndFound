@@ -32,7 +32,8 @@ const LoginForm = ({ isAdmin }) => {
             );
             const user = response.data.user || response.data.admin;
             console.log('Login successful:', user);
-            navigate(isAdmin ? '/admin/home' : '/');
+            localStorage.setItem('token', 'some-token'); // Aquí deberías guardar el token real recibido
+            navigate(isAdmin ? '/admin/home' : '/user/home');
         } catch (err) {
             console.error('Login error:', err);
             setError('Credenciales incorrectas');
