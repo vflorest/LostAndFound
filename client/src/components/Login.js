@@ -12,21 +12,24 @@ export default function Login() {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(email).toLowerCase());
     };
-    
+
     const handleSignInClick = async () => {
         if (!validateEmail(email)) {
             setError('Email no válido');
             return;
         }
         const userData = {
-          email: email,
-          password: password
+            email: email,
+            password: password
         };
 
         try {
             const response = await axios.post('http://localhost:3001/api/auth/login', userData);
-            localStorage.setItem('token', response.data.token);
-            navigate('/'); // Redirigir a la página home
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+
+            // Redirigir a la página principal después del inicio de sesión
+            navigate('/');
         } catch (err) {
             setError('Credenciales incorrectas');
         }
@@ -77,7 +80,7 @@ export default function Login() {
                 </div>
                 <div className="mt-8 flex justify-center items-center">
                     <p className="font-medium text-base">Don't have an account?</p>
-                    <button className="text-violet-500 text-base font-medium ml-2">Sign up</button>
+                    <button className="text-violet-500 text-base font-medium ml-2" onClick={() => navigate('/register')}>Sign up</button>
                 </div>
                 {error && <div className="mt-4 text-red-500">{error}</div>}
             </div>
